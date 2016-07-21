@@ -21,13 +21,15 @@ def parse_output_file(fpath):
     mc_rejected_steps = 0
     convergence_rejected_steps = 0
     for l in open(fpath).readlines():
-        if l.find("E initial") >= 0 or l.find("E accept") >= 0:
-            accepted_steps += 1
+        if l.find("E accept") >= 0:
+            e_accepted_steps += 1
+        elif l.find("MC accept") >= 0:
+            mc_accepted_steps += 1
         elif l.find("MC reject") >= 0:
             mc_rejected_steps += 1
         elif l.find("Convergence reject") >= 0:
             convergence_rejected_steps += 1
-    return (accepted_steps, mc_rejected_steps, convergence_rejected_steps)
+    return (accepted_steps, mc_accepted_steps, mc_rejected_steps, convergence_rejected_steps)
 
 def load_energies_pckl(fpath):
     fp = open(fpath, "r")
@@ -68,6 +70,10 @@ def get_e_min_step(energies):
 # "E_min"             : minimum energy reached during MC calculation
 # "min_step:          : step that minimum energy was reached
 # "E_min_step"        : list containing minimum energy at each step of MC calculation
+# "E_accepted_steps"           : E_accepted_steps,
+# "MC_accepted_steps"          : MC_accepted_steps,
+# "MC_rejected_steps"          : MC_rejected_steps,
+# "convergence_rejected_steps" : convergence_rejected_steps,
 # 
 results = []
 number_of_structs = {}
@@ -84,11 +90,11 @@ for root, dirs, files in os.walk("."):
             print "no submit script in %s!!" % root
 
         if "output.txt" in files:
-            accepted_steps, mc_rejected_steps, convergence_rejected_steps = parse_output_file(root + "/output.txt")
+            accepted_steps, mc_accepted_steps, mc_rejected_steps, convergence_rejected_steps = parse_output_file(root + "/output.txt")
         else:
             print "no output.txt in %s!!" % root
-            accepted_steps, mc_rejected_steps, convergence_rejected_steps = (0,0,0)
-        total_steps =  accepted_steps + mc_rejected_steps + convergence_rejected_steps
+            e_accepted_steps, mc_rejected_steps, convergence_rejected_steps = (0,0,0)
+        total_steps =  E_accepted_steps + MC_accepted_steps + MC_rejected_steps + convergence_rejected_steps
 
         if total_steps != max_steps:
             raise Exception("total steps != max_steps, something inconsistent, stdOrder: %d, struct index %d, total_steps %d, max_steps %d" % (std_order, struct_index, total_steps, max_steps))
@@ -102,15 +108,19 @@ for root, dirs, files in os.walk("."):
             min_step, E_min, E_min_step = (0,0,[0])
         
         results.append({
-            "std_order"         : std_order,
-            "number_of_structs" : 0, # done later
-            "struct_index"      : struct_index,
-            "max_steps"         : max_steps,
-            "swap_freq"         : swap_freq,
-            "T_reduced"         : T_reduced,
-            "E_min"             : E_min,
-            "min_step"          : min_step,
-            "E_min_step"        : E_min_step
+            "std_order"                  : std_order,
+            "number_of_structs"          : 0, # done later
+            "struct_index"               : struct_index,
+            "max_steps"                  : max_steps,
+            "swap_freq"                  : swap_freq,
+            "T_reduced"                  : T_reduced,
+            "E_min"                      : E_min,
+            "min_step"                   : min_step,
+            "E_min_step"                 : E_min_step,
+            "E_accepted_steps"           : E_accepted_steps,
+            "MC_accepted_steps"          : MC_accepted_steps,
+            "MC_rejected_steps"          : MC_rejected_steps,
+            "convergence_rejected_steps" : convergence_rejected_steps,
             })
 
         if std_order_number_of_structs_map.has_key(std_order):
