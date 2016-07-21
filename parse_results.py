@@ -91,10 +91,10 @@ for root, dirs, files in os.walk("."):
             print "no submit script in %s!!" % root
 
         if "output.txt" in files:
-            accepted_steps, mc_accepted_steps, mc_rejected_steps, convergence_rejected_steps = parse_output_file(root + "/output.txt")
+            E_accepted_steps, MC_accepted_steps, MC_rejected_steps, convergence_rejected_steps = parse_output_file(root + "/output.txt")
         else:
             print "no output.txt in %s!!" % root
-            e_accepted_steps, mc_rejected_steps, convergence_rejected_steps = (0,0,0)
+            E_accepted_steps, MC_rejected_steps, convergence_rejected_steps = (0,0,0)
         total_steps =  E_accepted_steps + MC_accepted_steps + MC_rejected_steps + convergence_rejected_steps
 
         if total_steps != max_steps:
