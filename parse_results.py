@@ -22,6 +22,11 @@ def parse_output_file(fpath):
     mc_rejected_steps = 0
     convergence_rejected_steps = 0
     for l in open(fpath).readlines():
+        if l.find("SGE job") >= 0:
+            e_accepted_steps = 0
+            mc_accepted_steps = 0
+            mc_rejected_steps = 0
+            convergence_rejected_steps = 0
         if l.find("E accept") >= 0:
             e_accepted_steps += 1
         elif l.find("MC accept") >= 0:
