@@ -17,7 +17,8 @@ def parse_submit_file(fpath):
 def parse_output_file(fpath):
     """ parses the output file at 'fpath' and returns tuple
  containing accepted_steps, mc_rejected_steps, convergence_rejected_steps."""
-    accepted_steps = 0
+    e_accepted_steps = 0
+    mc_accepted_steps = 0
     mc_rejected_steps = 0
     convergence_rejected_steps = 0
     for l in open(fpath).readlines():
