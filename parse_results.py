@@ -77,7 +77,7 @@ def get_e_min_step(energies):
 # "convergence_rejected_steps" : convergence_rejected_steps,
 # 
 results = []
-number_of_structs = {}
+std_order_number_of_structs_map = {}
 
 for root, dirs, files in os.walk("."):
     split_root = root.split("/")
@@ -127,10 +127,10 @@ for root, dirs, files in os.walk("."):
         if std_order_number_of_structs_map.has_key(std_order):
             std_order_number_of_structs_map[std_order] += 1
         else:
-            number_of_structs[std_order] = 1
+            std_order_number_of_structs_map[std_order] = 1
 
 for r in results:
-    r["number_of_structs"] = number_of_structs[r["std_order"]]
+    r["number_of_structs"] = std_order_number_of_structs_map[r["std_order"]]
 
 fp = open("results.pckl", "w")
 pickle.dump(results, fp)
