@@ -30,7 +30,7 @@ def parse_output_file(fpath):
             mc_rejected_steps += 1
         elif l.find("Convergence reject") >= 0:
             convergence_rejected_steps += 1
-    return (accepted_steps, mc_accepted_steps, mc_rejected_steps, convergence_rejected_steps)
+    return (e_accepted_steps, mc_accepted_steps, mc_rejected_steps, convergence_rejected_steps)
 
 def load_energies_pckl(fpath):
     fp = open(fpath, "r")
