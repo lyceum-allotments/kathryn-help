@@ -12,7 +12,7 @@ def parse_submit_file(fpath):
             max_steps, swap_freq, T_reduced = lsplit[2:]
             swap_freq = [float(i) for i in swap_freq[1:-1].split(":")]
             swap_freq = swap_freq[0] / swap_freq[1]
-            return int(max_steps), li_mg_swap, float(T_reduced)
+            return int(max_steps), swap_freq, float(T_reduced)
 
 def parse_output_file(fpath):
     """ parses the output file at 'fpath' and returns tuple
