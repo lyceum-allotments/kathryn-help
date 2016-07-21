@@ -91,7 +91,7 @@ for root, dirs, files in os.walk("."):
         total_steps =  accepted_steps + mc_rejected_steps + convergence_rejected_steps
 
         if total_steps != max_steps:
-            raise Exception("total steps != max_steps, something inconsistent, stdOrder: %d, struct index %d", (std_order, struct_index))
+            raise Exception("total steps != max_steps, something inconsistent, stdOrder: %d, struct index %d" % (std_order, struct_index))
 
         if "energies_images.pckl" in files: # in structure directory
             all_energies = load_energies_pckl(root + "/energies_images.pckl")
