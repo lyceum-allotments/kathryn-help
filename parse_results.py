@@ -87,9 +87,12 @@ std_order_number_of_structs_map = {}
 for root, dirs, files in os.walk("."):
     split_root = root.split("/")
     if len(split_root) == 3:
-        std_order = int(split_root[1])
-        struct_index = int(split_root[2])
-        
+        try:
+            std_order = int(split_root[1])
+            struct_index = int(split_root[2])
+        except ValueError: 
+            continue
+
         if "submit" in files:
             max_steps, swap_freq, T_reduced = parse_submit_file(root + "/submit")
         else:
