@@ -21,5 +21,5 @@ for total_steps in [100, 500, 1000, 2000]:
 
 plt.xlabel('E initial (eV)')
 plt.ylabel('E final (eV)')
-plt.legend()
+plt.legend(numpoints=1)
 plt.show()
